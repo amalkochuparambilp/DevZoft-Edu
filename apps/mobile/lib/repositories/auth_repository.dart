@@ -4,8 +4,16 @@ import '../core/supabase_client.dart';
 class AuthRepository {
   SupabaseClient get _client => SupabaseClientProvider.client;
 
-  Future<AuthResponse> signUp(String email, String password) =>
-      _client.auth.signUp(email: email, password: password);
+  Future<AuthResponse> signUp(
+    String email,
+    String password, {
+    String? displayName,
+  }) =>
+      _client.auth.signUp(
+        email: email,
+        password: password,
+        data: {'display_name': displayName},
+      );
 
   Future<AuthResponse> signIn(String email, String password) =>
       _client.auth.signInWithPassword(email: email, password: password);

@@ -9,14 +9,23 @@ import '../screens/bookmarks/bookmarks_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/',
     routes: [
       GoRoute(path: '/login', builder: (ctx, st) => const LoginScreen()),
       GoRoute(path: '/register', builder: (ctx, st) => const RegisterScreen()),
       GoRoute(path: '/', builder: (ctx, st) => const HomeScreen()),
-      GoRoute(path: '/resources', builder: (ctx, st) => const ResourceListScreen()),
-      GoRoute(path: '/resources/:id', builder: (ctx, st) => ResourceDetailScreen(id: st.pathParameters['id']!)),
-      GoRoute(path: '/bookmarks', builder: (ctx, st) => const BookmarksScreen()),
+      GoRoute(
+        path: '/resources',
+        builder: (ctx, st) => ResourceListScreen(
+          initialType: st.uri.queryParameters['type'],
+        ),
+      ),
+      GoRoute(
+          path: '/resources/:id',
+          builder: (ctx, st) =>
+              ResourceDetailScreen(id: st.pathParameters['id']!)),
+      GoRoute(
+          path: '/bookmarks', builder: (ctx, st) => const BookmarksScreen()),
     ],
   );
 });
