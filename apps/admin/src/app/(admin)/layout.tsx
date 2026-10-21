@@ -1,58 +1,123 @@
 export const dynamic = "force-dynamic";
-import Link from "next/link";
+
+import { LogOut, ShieldAlert } from "lucide-react";
+import { signOutAdmin } from "@/lib/actions/auth";
+import { AdminActionFeedback } from "@/components/admin-action-feedback";
+import {
+  AdminBrand,
+  AdminMobileNavigation,
+  AdminSidebar,
+} from "@/components/admin-navigation";
+import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-const nav = [
-  { href: "/dashboard", label: "Dashboard", icon: "📊" },
-  { href: "/resources", label: "Resources", icon: "📚" },
-  { href: "/categories", label: "Categories & Curriculum", icon: "🗂️" },
-  { href: "/quizzes", label: "Quizzes", icon: "📝" },
-  { href: "/announcements", label: "Announcements", icon: "📣" },
-  { href: "/users", label: "Users", icon: "👥" },
-  { href: "/settings", label: "Settings", icon: "⚙️" },
-  { href: "/audit", label: "Audit Logs", icon: "🧾" },
-];
-
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", user.id).single();
+  const [{ data: profile }, { data: hasAccess, error: permissionError }] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select("display_name")
+        .eq("id", user.id)
+        .maybeSingle(),
+      supabase.rpc("has_permission", { perm: "admin.access" }),
+    ]);
 
-  async function signOut() {
-    "use server";
-    const s = await createClient();
-    await s.auth.signOut();
-    redirect("/login");
+  if (permissionError || hasAccess !== true) {
+    if (permissionError) {
+      console.error("CMS access permission check failed");
+    }
+
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-5 py-10">
+        <section className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <AdminBrand />
+          </div>
+          <div className="flex size-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-700">
+            <ShieldAlert size={23} />
+          </div>
+          <h1 className="mt-5 text-xl font-bold tracking-tight text-slate-900">
+            Admin access required
+          </h1>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            {permissionError
+              ? "The CMS could not verify your admin permissions. Confirm that the Supabase database migrations and role permissions are configured."
+              : "You are signed in, but your account does not have permission to access the CMS. Ask a Super Admin to assign an admin role."}
+          </p>
+          <form action={signOutAdmin} className="mt-6">
+            <Button type="submit" variant="outline">
+              <LogOut size={16} />
+              Sign out
+            </Button>
+          </form>
+        </section>
+      </div>
+    );
   }
 
+  const displayName = profile?.display_name?.trim() || user.email || "Admin";
+  const initial = displayName.charAt(0).toUpperCase();
+
   return (
-    <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
-      <aside className="hidden md:flex w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
-          <div className="text-lg font-bold text-blue-600">DevZoft Learning</div>
-          <div className="text-xs text-slate-500">Admin CMS</div>
-        </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
-              <span>{n.icon}</span><span>{n.label}</span>
-            </Link>
-          ))}
-        </nav>
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 text-xs">
-          <div className="font-medium">{profile?.display_name ?? user.email}</div>
-          <form action={signOut}><button className="mt-2 text-red-600 hover:underline">Sign out</button></form>
-        </div>
-      </aside>
-      <main className="flex-1 overflow-auto">
-        <header className="md:hidden flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-          <div className="font-bold text-blue-600">DevZoft Learning</div>
+    <div className="flex min-h-screen bg-slate-50 text-slate-900">
+      <AdminSidebar />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-30 flex h-[76px] items-center justify-between border-b border-slate-200 bg-white/95 px-5 backdrop-blur sm:px-8">
+          <div className="flex items-center gap-3">
+            <AdminMobileNavigation />
+            <div className="lg:hidden">
+              <AdminBrand />
+            </div>
+            <div className="hidden text-sm font-medium text-slate-500 lg:block">
+              Content management
+            </div>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden max-w-52 truncate text-right sm:block">
+              <p className="truncate text-xs font-semibold text-slate-800">
+                {displayName}
+              </p>
+              <p className="text-[10px] text-slate-400">Administrator</p>
+            </div>
+            <div
+              aria-hidden="true"
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700 ring-1 ring-blue-100"
+            >
+              {initial}
+            </div>
+            <form action={signOutAdmin}>
+              <button
+                type="submit"
+                className="inline-flex h-9 items-center gap-2 rounded-xl border border-slate-200 px-3 text-xs font-semibold text-slate-600 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
+                <LogOut size={15} />
+                <span className="hidden sm:inline">Sign out</span>
+                <span className="sm:hidden">Logout</span>
+              </button>
+            </form>
+          </div>
         </header>
-        <div className="p-6">{children}</div>
-      </main>
+        <main className="w-full flex-1">
+          <div className="mx-auto w-full max-w-[1440px] p-5 sm:p-8">
+            <AdminActionFeedback />
+            {children}
+          </div>
+        </main>
+        <footer className="border-t border-slate-200/80 px-5 py-4 text-center text-[11px] text-slate-400 sm:px-8">
+          DevZoft Learning · Administration
+        </footer>
+      </div>
     </div>
   );
 }

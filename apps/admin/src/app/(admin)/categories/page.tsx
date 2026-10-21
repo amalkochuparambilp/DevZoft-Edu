@@ -89,7 +89,7 @@ export default async function CategoriesPage() {
             {(categories ?? []).map((c: any) => (
               <li key={c.id} className="py-2 flex items-center justify-between">
                 <span>{c.name} <span className="text-xs text-slate-500">({c.kind})</span></span>
-                <form action={async () => { "use server"; await deleteCategory(c.id); }}>
+                <form action={deleteCategory.bind(null, c.id)}>
                   <Button size="sm" variant="destructive" type="submit">Delete</Button>
                 </form>
               </li>

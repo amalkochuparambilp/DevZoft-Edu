@@ -16,7 +16,7 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ id:
       <Card>
         <CardHeader><CardTitle>Add Question</CardTitle></CardHeader>
         <CardContent>
-          <form action={async (fd) => { "use server"; await addQuestion(id, fd); }} className="space-y-3">
+          <form action={addQuestion.bind(null, id)} className="space-y-3">
             <textarea name="question_text" placeholder="Question text" required className="w-full rounded-lg border border-slate-300 p-3 text-sm dark:border-slate-700 dark:bg-slate-900" rows={2} />
             <select name="question_type" className="h-10 rounded-lg border border-slate-300 px-3 text-sm dark:border-slate-700 dark:bg-slate-900">
               <option value="mcq">mcq</option>
@@ -51,7 +51,7 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ id:
                   </ul>
                   {q.explanation && <p className="mt-2 text-xs text-slate-500">Explanation: {q.explanation}</p>}
                 </div>
-                <form action={async () => { "use server"; await deleteQuestion(q.id, id); }}>
+                <form action={deleteQuestion.bind(null, q.id, id)}>
                   <Button size="sm" variant="destructive" type="submit">Delete</Button>
                 </form>
               </div>

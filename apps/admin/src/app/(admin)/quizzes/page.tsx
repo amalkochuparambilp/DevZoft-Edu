@@ -22,7 +22,7 @@ export default async function QuizzesPage() {
                   <Link href={`/quizzes/${q.id}`} className="font-medium text-blue-600 hover:underline">{q.title}</Link>
                   <div className="text-xs text-slate-500">{q.status}</div>
                 </div>
-                <form action={async () => { "use server"; await deleteQuiz(q.id); }}>
+                <form action={deleteQuiz.bind(null, q.id)}>
                   <Button size="sm" variant="destructive" type="submit">Delete</Button>
                 </form>
               </li>

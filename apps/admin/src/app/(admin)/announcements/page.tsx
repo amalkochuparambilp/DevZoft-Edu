@@ -42,7 +42,7 @@ export default async function AnnouncementsPage() {
                   <div className="font-medium">{a.title}</div>
                   <div className="text-xs text-slate-500">{a.status} · {a.target_audience}</div>
                 </div>
-                <form action={async () => { "use server"; await deleteAnnouncement(a.id); }}>
+                <form action={deleteAnnouncement.bind(null, a.id)}>
                   <Button size="sm" variant="destructive" type="submit">Delete</Button>
                 </form>
               </li>
