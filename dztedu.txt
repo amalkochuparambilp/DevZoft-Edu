@@ -1,0 +1,732 @@
+PROJECT: DevZoft Learning
+Full-Stack Educational Resource Platform
+1. YOUR ROLE
+Act as a senior Flutter developer, full-stack engineer, UI/UX designer, Supabase architect, database engineer, and application security specialist.
+Build a complete, production-ready educational resource platform called DevZoft Learning.
+Do not create only a UI prototype, static website, or demonstration. Build a functional application with a real database, authentication, file storage, administrative permissions, and working integrations.
+Work directly in the project repository. Create and modify the necessary files, implement the features, run available tests, fix errors, and document the setup.
+Do not stop after generating a plan. Implement the application incrementally until the required features work.
+2. PROJECT REQUIREMENTS
+Build two applications connected to one backend.
+Application A: Android App
+• Framework: Flutter
+• Language: Dart
+• Audience: School and college students
+• Purpose: Access free educational resources and learning materials.
+Application B: Web Admin CMS
+• Framework: Next.js
+• Language: TypeScript
+• Styling: Tailwind CSS
+• Purpose: Manage the entire educational platform from a browser.
+Backend
+• Platform: Supabase
+• Database: PostgreSQL
+• Authentication: Supabase Auth
+• File storage: Supabase Storage
+• Authorization: PostgreSQL Row Level Security
+• Server-side operations: Supabase Edge Functions or another appropriate secure server-side mechanism.
+Hosting
+• Admin CMS: Vercel
+• Backend: Supabase
+• Source control: GitHub
+• Mobile distribution: Android APK and Google Play-compatible release build.
+Use stable, mutually compatible dependencies. Check existing project files before choosing package versions.
+3. BRANDING AND UI DESIGN
+Application name: DevZoft Learning
+Brand identity:
+• Modern educational technology platform.
+• Professional, clean, and trustworthy appearance.
+• Responsive layouts.
+• Clear typography.
+• Consistent spacing and component design.
+• Accessible text contrast.
+• Smooth but restrained animations.
+• Light and dark themes.
+• Consistent branding across Android and web.
+Use a modern blue-and-white educational design system, with a complementary accent color.
+Create reusable components for:
+• Buttons
+• Input fields
+• Cards
+• Navigation
+• Dialogs
+• Loading indicators
+• Empty states
+• Error states
+• Notifications
+• Data tables
+• Forms
+• Pagination
+• Search and filters
+Do not use placeholder branding or unrelated logos. Create a simple text-based DevZoft Learning logo treatment if no logo asset is provided.
+The mobile application must feel native to Android. The web CMS must be optimized for desktop and tablet while remaining usable on mobile browsers.
+4. FLUTTER ANDROID APPLICATION
+Build a complete student-facing Android application.
+4.1 Authentication
+Implement:
+• Registration with email and password.
+• Login with email and password.
+• Logout.
+• Forgot password.
+• Password reset.
+• Email verification.
+• Persistent authenticated sessions.
+• User profile management.
+• Account deletion workflow.
+Use Supabase Auth.
+Never store passwords directly in the application database.
+Provide clear validation and user-friendly authentication errors.
+Do not implement Google or phone authentication in this release.
+4.2 Student Home Dashboard
+Create a polished dashboard containing:
+• DevZoft Learning branding.
+• Welcome message.
+• Search bar.
+• Browse by education level.
+• School resources.
+• College resources.
+• Popular resources.
+• Recently published resources.
+• Featured resources.
+• Recently viewed materials.
+• Continue learning.
+• Quick-access categories.
+• Notifications.
+• Bookmarks.
+Load content dynamically from Supabase.
+Do not hardcode categories or resources in the Flutter interface.
+4.3 Educational Categories
+Support the following initial hierarchy.
+School:
+• Classes 1 through 12.
+• Mathematics.
+• Science.
+• Social Science.
+• English.
+• Languages.
+• Study notes.
+• Worksheets.
+• Previous examination papers.
+College:
+• Arts and Humanities.
+• Science.
+• Commerce.
+• Computer Science and IT.
+• Engineering.
+• Management.
+• Degree programs.
+• Courses.
+• Semesters.
+• Subjects.
+• University question papers.
+• Lecture notes.
+• Reference materials.
+Allow administrators to add, edit, reorder, and remove categories and subjects through the CMS.
+Support configurable relationships between education levels, courses, semesters, subjects, topics, and resources.
+Do not assume every college course uses the same semester structure.
+4.4 Resource Library
+Support these resource types:
+• PDF documents.
+• Study notes.
+• E-books.
+• Video lessons.
+• Audio lessons.
+• Articles.
+• Worksheets.
+• Question papers.
+• External educational links.
+Each resource should contain:
+• Title.
+• Description.
+• Resource type.
+• Category.
+• Education level.
+• Course or class.
+• Subject.
+• Topic.
+• Language.
+• Thumbnail.
+• Tags.
+• Publication date.
+• File or external URL.
+• Publication status.
+• Featured status.
+• Creator and timestamps.
+Implement:
+• Resource details screen.
+• PDF viewing.
+• File downloads.
+• Video playback using a suitable Flutter package.
+• External link handling.
+• Resource bookmarking.
+• Recently viewed history.
+• Related resources.
+• Share functionality using the native Android share interface.
+Only display resources that the current user is authorized to access and that have been published.
+4.5 Search and Filtering
+Implement searchable educational resources.
+Search fields:
+• Title.
+• Description.
+• Subject.
+• Topic.
+• Tags.
+Filters:
+• School or college.
+• Class or course.
+• Semester.
+• Subject.
+• Language.
+• Resource type.
+• Date published.
+Include sorting by:
+• Most recent.
+• Most popular.
+• Most downloaded.
+• Alphabetical order.
+Use database queries and indexes where appropriate.
+Do not load the entire resource database into the mobile application.
+4.6 Bookmarks and Learning History
+Implement:
+• Add and remove bookmarks.
+• Bookmarks screen.
+• Recently viewed resources.
+• Download history.
+• Reading or viewing progress where supported.
+• Synchronization across authenticated devices.
+A user must only be able to read or modify their own private learning records.
+4.7 Offline Access
+Allow students to download supported educational files.
+Implement:
+• Download progress.
+• Download cancellation.
+• Downloaded resources screen.
+• Offline file access.
+• Download error handling.
+• Storage cleanup.
+• Duplicate-download prevention.
+Keep private files in an application-controlled directory.
+Respect resource access permissions and any restrictions set by the administrator.
+Do not expose private storage URLs or unrestricted download endpoints.
+4.8 Quizzes and Practice Tests
+Implement:
+• Quiz listing.
+• Quiz details.
+• Multiple-choice questions.
+• Single-answer questions.
+• Optional timers.
+• Answer selection.
+• Submission.
+• Score calculation.
+• Result screens.
+• Answer explanations.
+• Attempt history.
+• Learning progress.
+Administrators configure quiz availability and rules.
+Validate submissions on the server when necessary to avoid trusting client-calculated scores or exposing answer keys prematurely.
+4.9 Student Profile
+Include:
+• Display name.
+• Email.
+• Profile information.
+• Learning activity.
+• Bookmarks.
+• Download history.
+• Quiz results.
+• Theme preferences.
+• Notification preferences.
+• Logout.
+• Account deletion.
+4.10 Android Notifications
+Integrate Firebase Cloud Messaging where configured.
+Support notifications for:
+• Newly published resources.
+• Announcements.
+• Important educational updates.
+Ask for notification permission where required by Android.
+Store notification preferences and relevant device tokens securely.
+Handle foreground and background notifications correctly.
+The application must still work when push notifications have not yet been configured.
+5. WEB ADMIN CMS
+Build a complete, responsive administrative application using Next.js and TypeScript.
+The CMS must connect to the same Supabase project used by Flutter.
+Create a professional dashboard with a sidebar, top navigation, search, profile menu, and responsive content area.
+Protect every administrative route and operation.
+5.1 Admin Authentication
+Implement:
+• Login.
+• Logout.
+• Password recovery.
+• Session management.
+• Protected admin routes.
+• Role-based navigation.
+• Unauthorized-access screens.
+Do not permit public users to create administrative accounts.
+Administrative privileges must be assigned through a trusted process.
+Do not trust role information supplied by browser forms or client-side state.
+Enforce authorization in server-side operations and database policies.
+5.2 Admin Dashboard
+Display real data from Supabase:
+• Total registered users.
+• Active users where measurable.
+• Total resources.
+• Published resources.
+• Draft resources.
+• Resources awaiting review.
+• Total downloads.
+• Most viewed resources.
+• Popular categories.
+• Quiz participation.
+• Recent administrative activity.
+Provide loading, error, and empty states.
+Do not fabricate statistics or use static sample numbers in production.
+5.3 Resource Management CMS
+Implement full CRUD functionality.
+Administrators must be able to:
+• Create resources.
+• Edit resources.
+• Preview resources.
+• Publish resources.
+• Unpublish resources.
+• Archive resources.
+• Delete resources.
+• Search resources.
+• Filter by category, status, type, and date.
+• Bulk-select and perform safe bulk actions.
+• Feature or unfeature resources.
+Create a reusable resource editor with validation.
+Fields:
+• Title.
+• Slug.
+• Description.
+• Resource type.
+• Education level.
+• Category.
+• Course or class.
+• Semester.
+• Subject.
+• Topic.
+• Language.
+• Tags.
+• Thumbnail.
+• File upload or external URL.
+• Publication status.
+• Featured status.
+• Publication schedule.
+• SEO metadata where applicable.
+Support drafts, review, publication, and archival workflows.
+Add confirmation dialogs for destructive operations.
+Maintain creation and update timestamps.
+Store the creator and last editor.
+Implement scheduled publishing through a reliable server-side scheduler if supported by the deployment configuration. Do not rely on an open browser tab to publish scheduled content.
+5.4 File Manager
+Support uploads of:
+• PDF documents.
+• Images.
+• Audio.
+• Video files where appropriate.
+Implement:
+• File type validation.
+• File size validation.
+• Upload progress.
+• Error handling.
+• File metadata.
+• File replacement.
+• Resource-to-file relationships.
+• Deletion of unused files.
+• Secure file access.
+Use Supabase Storage.
+Configure appropriate storage buckets and access policies.
+Keep private files private.
+Never expose the Supabase service-role key in browser JavaScript.
+For large videos, prefer managed video hosting or external video URLs rather than assuming general-purpose object storage is an efficient video-streaming service.
+5.5 Category and Curriculum Management
+Allow authorized administrators to manage:
+• Education levels.
+• Classes.
+• Degree programs.
+• Courses.
+• Departments.
+• Semesters.
+• Subjects.
+• Topics.
+• Resource categories.
+• Tags.
+• Languages.
+Implement ordering and parent-child relationships where appropriate.
+Prevent deletion of categories that are still referenced unless the administrator explicitly resolves those dependencies.
+The Flutter app must retrieve these structures dynamically.
+5.6 User Management
+Implement:
+• Paginated user list.
+• Search.
+• Filtering.
+• User profile details.
+• Account status.
+• Role assignments.
+• Activity summaries.
+• Access restrictions.
+• User suspension and restoration.
+• Data export for authorized administrators.
+Use secure server-side administrative operations for privileged Supabase Auth management.
+Never allow an ordinary user to grant themselves administrator privileges.
+Log sensitive account changes.
+5.7 Role and Permission Management
+Implement these roles:
+• Super Admin.
+• Admin.
+• Content Manager.
+• Editor.
+• Teacher.
+• Student.
+Default permissions:
+Super Admin:
+• Full platform administration.
+• Manage administrative roles.
+• Configure security-sensitive settings.
+• Manage users and content.
+Admin:
+• Manage platform operations within authorized permissions.
+• Manage users, resources, categories, and settings.
+Content Manager:
+• Create, review, publish, and manage educational resources as permitted.
+Editor:
+• Create and edit content.
+• Submit content for review.
+• Publish only if explicitly granted permission.
+Teacher:
+• Manage assigned educational materials and quizzes.
+• View permitted student results.
+Student:
+• Read published resources.
+• Manage personal bookmarks and learning records.
+• Attempt available quizzes.
+Build a permission matrix rather than relying only on role names.
+The backend must enforce permissions even if someone bypasses the web interface.
+5.8 Quiz CMS
+Allow authorized users to:
+• Create quizzes.
+• Edit questions.
+• Add multiple-choice options.
+• Set correct answers.
+• Add explanations.
+• Configure timers.
+• Configure passing scores.
+• Organize quizzes by course and subject.
+• Publish or unpublish quizzes.
+• Review attempts and results.
+• Export permitted result data.
+Prevent students from retrieving answer keys before submission.
+5.9 Homepage Management
+Allow administrators to configure:
+• Featured resources.
+• Popular categories.
+• Recommended resources.
+• Recently published content.
+• Homepage announcements.
+• Visible sections.
+• Section ordering.
+The Android application should render these settings dynamically.
+Provide sensible defaults if an optional homepage configuration is missing.
+5.10 Announcements and Notifications
+Implement:
+• Create announcements.
+• Edit announcements.
+• Schedule announcements.
+• Publish or unpublish announcements.
+• Configure target audience.
+• Send push notifications through a secure server-side integration.
+• View delivery results where available.
+Do not expose Firebase server credentials in the browser or Android application.
+5.11 Platform Settings
+Create CMS settings for:
+• Application name.
+• Logo.
+• Branding.
+• Theme defaults.
+• Support information.
+• Terms of service.
+• Privacy policy.
+• Maximum upload sizes.
+• Allowed file types.
+• Maintenance mode.
+• Notification preferences.
+• Content visibility defaults.
+Validate configuration changes and restrict sensitive settings to authorized administrators.
+5.12 Audit Logs
+Record important events:
+• Resource created.
+• Resource edited.
+• Resource published.
+• Resource deleted.
+• User suspended.
+• Role assigned.
+• Platform settings changed.
+• Administrative login where supported.
+• Security-sensitive actions.
+Include:
+• Actor.
+• Action.
+• Target resource.
+• Timestamp.
+• Relevant metadata.
+Prevent ordinary administrators from modifying or deleting audit records.
+Avoid recording passwords, tokens, private credentials, or unnecessary sensitive information.
+6. SUPABASE DATABASE
+Create version-controlled SQL migrations.
+Design a normalized PostgreSQL schema that supports the application.
+Include at least:
+• profiles
+• roles
+• permissions
+• role_permissions
+• user_roles
+• education_levels
+• categories
+• courses
+• semesters
+• subjects
+• topics
+• resources
+• resource_files
+• tags
+• resource_tags
+• bookmarks
+• resource_views
+• downloads
+• user_progress
+• quizzes
+• questions
+• question_options
+• quiz_attempts
+• quiz_answers
+• announcements
+• notification_preferences
+• device_tokens
+• app_settings
+• audit_logs
+Adjust the schema when necessary to avoid unnecessary duplication and support proper relationships.
+Requirements:
+• Primary keys.
+• Foreign keys.
+• Unique constraints.
+• Appropriate indexes.
+• Created and updated timestamps.
+• Referential integrity.
+• Database constraints.
+• Pagination support.
+• Efficient filtering.
+• Secure access policies.
+Use UUID identifiers where appropriate.
+Create indexes for commonly queried fields, including resource publication status, category, subject, education level, and publication date.
+Implement an appropriate search strategy for resource titles, descriptions, and tags.
+Create triggers only where they provide a clear benefit and are safe to maintain.
+Use database migrations for schema changes. Do not depend on manually modifying the production database.
+7. DATABASE SECURITY AND RLS
+Security is mandatory.
+Enable Row Level Security on all exposed tables containing user data or privileged information.
+Implement policies for the following cases:
+Public or authenticated students:
+• Read only published resources that are available to them.
+• Read public curriculum metadata.
+• Manage their own bookmarks.
+• Manage their own learning history.
+• Access their own quiz attempts.
+• Read announcements intended for them.
+Teachers:
+• Manage only the resources and quizzes within their assigned permissions.
+Editors and Content Managers:
+• Perform authorized content-management operations.
+Administrators:
+• Perform operations allowed by their permissions.
+Super Admin:
+• Perform authorized platform-wide operations.
+Additional requirements:
+• Users must never modify their own privileged role assignments.
+• Sensitive administrative actions must use trusted server-side checks.
+• Validate role assignments and permission changes.
+• Restrict private file downloads.
+• Protect against insecure direct object references.
+• Validate input on the client and server.
+• Use parameterized queries or safe database APIs.
+• Rate-limit sensitive operations where appropriate.
+• Protect secrets using environment variables.
+• Apply least-privilege access.
+• Avoid leaking private information in error responses.
+Do not treat a hidden UI button as a security boundary.
+Create automated or documented tests for important RLS policies.
+8. API AND DATA ACCESS
+Use the Supabase client appropriately in both applications.
+Flutter:
+• Use the official Supabase Flutter SDK.
+• Create repository classes for resources, categories, bookmarks, quizzes, and profiles.
+• Keep data access separate from presentation.
+• Implement error handling and pagination.
+• Avoid embedding database operations throughout UI widgets.
+Next.js:
+• Use supported Supabase JavaScript libraries.
+• Use server-side access patterns for privileged operations.
+• Validate all submitted data.
+• Enforce permissions for every mutation.
+• Use secure session handling.
+• Use server-only secrets for administrative operations.
+Create shared API contracts or TypeScript types where practical.
+Never use the service-role key in Flutter, public environment variables, or browser-side code.
+Do not introduce unnecessary backend services when Supabase already provides the required functionality.
+9. RECOMMENDED PROJECT STRUCTURE
+Create a monorepo:
+devzoft-learning/ apps/ mobile/ lib/ core/ models/ repositories/ services/ providers/ routing/ screens/ widgets/ theme/ test/ android/
+admin/ src/ app/ components/ features/ lib/ server/ types/ public/ tests/ 
+supabase/ migrations/ functions/ seed.sql/ config.toml
+packages/ shared-types/
+docs/ architecture.md database.md security.md deployment.md setup.md
+.github/ workflows/
+.gitignore README.md
+Adapt this structure if the existing repository already has a better organization.
+Use a maintainable Flutter state-management solution such as Riverpod.
+Use a consistent Next.js application architecture with reusable components, validated forms, and typed database access.
+10. ENVIRONMENT CONFIGURATION
+Create appropriate example environment files.
+For the web application, document variables such as:
+NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY=
+Use the appropriate publishable-key format supported by the selected Supabase configuration.
+For Flutter, configure the Supabase project URL and publishable client key through a documented environment setup.
+Do not commit real credentials.
+Do not put privileged secrets in client applications.
+If a server-side administrative operation requires elevated credentials, implement it in a trusted server environment and validate the current user's permissions before executing the operation.
+Include an .env.example file containing placeholders only.
+Document how to configure local development, testing, and production environments.
+11. TESTING AND QUALITY ASSURANCE
+Do not declare the project complete merely because the application compiles.
+Flutter:
+• Authentication tests.
+• Widget tests.
+• Repository tests.
+• Search and filtering tests.
+• Bookmark tests.
+• Quiz tests.
+• Error-state tests.
+• Offline-download tests where practical.
+Next.js:
+• Authentication tests.
+• Route-protection tests.
+• Form-validation tests.
+• Resource CRUD tests.
+• Role and permission tests.
+• Upload validation tests.
+• Dashboard data tests.
+Backend:
+• RLS tests.
+• User data isolation tests.
+• Administrative permission tests.
+• Resource publication tests.
+• File access tests.
+• Quiz submission security tests.
+Run:
+• Flutter formatting.
+• Flutter static analysis.
+• Flutter tests.
+• Next.js linting.
+• TypeScript checks.
+• Next.js production build.
+• Database migration validation where available.
+Fix errors rather than hiding or suppressing them.
+Do not report a test as passed unless it was actually run successfully.
+If credentials, external services, or unavailable tooling prevent a test from running, document the limitation.
+12. DEPLOYMENT
+Prepare the application for production.
+Admin CMS:
+• Configure the production build.
+• Document Vercel deployment.
+• Configure environment variables.
+• Configure Supabase authentication redirect URLs.
+• Configure production domains where available.
+Backend:
+• Apply version-controlled migrations.
+• Configure database security.
+• Configure storage buckets and policies.
+• Configure email authentication.
+• Configure backups and recovery.
+• Configure required Edge Functions.
+Android:
+• Configure application ID through a documented project setting.
+• Configure app name and icon.
+• Configure release signing instructions.
+• Generate a release APK.
+• Prepare an Android App Bundle for Google Play.
+• Document how to install and test the application.
+Do not fabricate deployment URLs or claim that the application has been deployed when deployment has not actually occurred.
+13. IMPLEMENTATION WORKFLOW
+Follow these stages.
+Stage 1: Inspect the repository, installed tooling, and available configuration.
+Stage 2: Create the project structure and architecture documentation.
+Stage 3: Implement database migrations, initial curriculum data, and RLS policies.
+Stage 4: Implement Supabase authentication and secure session handling.
+Stage 5: Build the web CMS foundation and administrative access control.
+Stage 6: Implement resource, category, curriculum, and file management.
+Stage 7: Build the Flutter Android application.
+Stage 8: Connect the Android application to the live backend.
+Stage 9: Implement quizzes, bookmarks, learning history, and notifications.
+Stage 10: Run tests, resolve errors, and improve performance.
+Stage 11: Prepare deployment configurations and documentation.
+After each stage:
+• Review the changed files.
+• Run relevant tests.
+• Fix issues.
+• Update documentation.
+• Continue to the next stage.
+Do not stop to request approval after every routine implementation step.
+If a required external credential is unavailable, implement the integration using environment variables and clearly document how to activate it later.
+Never fabricate credentials or pretend an external integration is working without verification.
+14. ACCEPTANCE CRITERIA
+The project is considered ready for review when:
+• Students can register, verify their email, log in, and reset passwords.
+• Administrators can securely access the CMS.
+• Unauthorized users cannot access administrative operations.
+• Authorized administrators can create and manage educational categories.
+• Authorized administrators can upload educational files.
+• Administrators can publish and unpublish resources.
+• Published resources appear dynamically in the Flutter application.
+• Students can search and filter resources.
+• Students can view PDFs and access permitted downloads.
+• Students can bookmark resources.
+• Quiz creation and submission work.
+• Students cannot access other users' private learning records.
+• Role and permission checks are enforced by the backend.
+• Private files are protected.
+• Important administrative actions are logged.
+• The CMS works on desktop and mobile browsers.
+• The Android app handles loading, errors, and empty states.
+• Database migrations and setup instructions are documented.
+• Relevant automated tests pass.
+• Production build instructions are complete.
+Do not use fake production data, nonfunctional buttons, hardcoded authentication, or placeholder CRUD operations.
+If a feature cannot be completed because an external service is unavailable, implement the supported portions, document the missing configuration, and state exactly what remains.
+15. FINAL DELIVERABLES
+Deliver:
+• Complete Flutter Android source code.
+• Complete Next.js admin CMS source code.
+• Supabase database migrations.
+• Row Level Security policies.
+• Storage configuration.
+• Initial educational category seed data.
+• Authentication implementation.
+• Resource management system.
+• User and permission management.
+• Quiz functionality.
+• Automated tests.
+• Environment variable examples.
+• Setup instructions.
+• Security documentation.
+• Deployment instructions.
+• Android release build instructions.
+At the end, provide a concise completion report containing:
+• Features implemented.
+• Project structure.
+• Database tables and policies created.
+• Tests executed and their actual results.
+• Build status.
+• Required environment variables.
+• Remaining limitations.
+• Exact commands to run the applications locally.
+Start by inspecting the repository and available development tools. Then begin implementation immediately.
