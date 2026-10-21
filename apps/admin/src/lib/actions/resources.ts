@@ -1,6 +1,25 @@
 "use server";
 
-import { runAdminAction } from "@/lib/actions/admin";
+import { rejectInvalidInput, runAdminAction } from "@/lib/actions/admin";
+
+const resourceTypes = new Set([
+  "pdf",
+  "notes",
+  "ebook",
+  "video",
+  "audio",
+  "article",
+  "worksheet",
+  "question_paper",
+  "external_link",
+]);
+const resourceStatuses = new Set([
+  "draft",
+  "in_review",
+  "published",
+  "unpublished",
+  "archived",
+]);
 
 function resourcePayload(formData: FormData, userId: string, creating: boolean) {
   const status = String(formData.get("status") ?? "draft");
@@ -38,9 +57,18 @@ export async function createResource(formData: FormData) {
     "/resources/new",
     "/resources",
     async (supabase, user) => {
+      const payload = resourcePayload(formData, user.id, true);
+      if (
+        !String(payload.title ?? "").trim() ||
+        !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(payload.slug ?? "")) ||
+        !resourceTypes.has(String(payload.resource_type)) ||
+        !resourceStatuses.has(String(payload.status))
+      ) {
+        rejectInvalidInput();
+      }
       const { error } = await supabase
         .from("resources")
-        .insert(resourcePayload(formData, user.id, true));
+        .insert(payload);
       if (error) throw error;
     },
   );
@@ -53,6 +81,14 @@ export async function updateResource(id: string, formData: FormData) {
     "/resources",
     async (supabase, user) => {
       const payload = resourcePayload(formData, user.id, false);
+      if (
+        !String(payload.title ?? "").trim() ||
+        !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(payload.slug ?? "")) ||
+        !resourceTypes.has(String(payload.resource_type)) ||
+        !resourceStatuses.has(String(payload.status))
+      ) {
+        rejectInvalidInput();
+      }
       if (payload.status === "published") {
         const { data: existing, error: readError } = await supabase
           .from("resources")

@@ -1,6 +1,6 @@
 "use server";
 
-import { runAdminAction } from "@/lib/actions/admin";
+import { rejectInvalidInput, runAdminAction } from "@/lib/actions/admin";
 
 function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -8,7 +8,18 @@ function text(formData: FormData, key: string) {
 
 function sortOrder(formData: FormData) {
   const value = text(formData, "sort_order");
-  return value ? Number(value) : 0;
+  const order = value ? Number(value) : 0;
+  if (!Number.isSafeInteger(order) || order < 0) rejectInvalidInput();
+  return order;
+}
+
+function validateIdentity(formData: FormData) {
+  if (
+    !text(formData, "name") ||
+    !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(text(formData, "slug"))
+  ) {
+    rejectInvalidInput();
+  }
 }
 
 export async function createCategory(formData: FormData) {
@@ -17,6 +28,7 @@ export async function createCategory(formData: FormData) {
     "/categories",
     "/categories",
     async (supabase) => {
+      validateIdentity(formData);
       const { error } = await supabase.from("categories").insert({
         name: text(formData, "name"),
         slug: text(formData, "slug"),
@@ -52,6 +64,7 @@ export async function createEducationLevel(formData: FormData) {
     "/categories",
     "/categories",
     async (supabase) => {
+      validateIdentity(formData);
       const { error } = await supabase.from("education_levels").insert({
         name: text(formData, "name"),
         slug: text(formData, "slug"),
@@ -69,6 +82,7 @@ export async function createCourse(formData: FormData) {
     "/categories",
     "/categories",
     async (supabase) => {
+      validateIdentity(formData);
       const { error } = await supabase.from("courses").insert({
         name: text(formData, "name"),
         slug: text(formData, "slug"),
@@ -87,6 +101,7 @@ export async function createSubject(formData: FormData) {
     "/categories",
     "/categories",
     async (supabase) => {
+      validateIdentity(formData);
       const { error } = await supabase.from("subjects").insert({
         name: text(formData, "name"),
         slug: text(formData, "slug"),

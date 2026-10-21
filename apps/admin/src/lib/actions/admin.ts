@@ -18,6 +18,7 @@ type AdminClient = Awaited<ReturnType<typeof createClient>>;
 export type ActionFailure =
   | "sign_in"
   | "permission"
+  | "invalid"
   | "duplicate"
   | "related"
   | "configuration"
@@ -37,10 +38,19 @@ function errorCode(error: unknown): string | undefined {
 
 export function actionFailure(error: unknown): ActionFailure {
   if (error instanceof AdminActionError) return error.failure;
+  if (
+    error instanceof Error &&
+    error.message === "Missing Supabase environment variables."
+  ) {
+    return "configuration";
+  }
 
   switch (errorCode(error)) {
     case "42501":
       return "permission";
+    case "22P02":
+    case "23514":
+      return "invalid";
     case "23505":
       return "duplicate";
     case "23503":
@@ -57,6 +67,10 @@ class AdminActionError extends Error {
   constructor(readonly failure: ActionFailure) {
     super(failure);
   }
+}
+
+export function rejectInvalidInput(): never {
+  throw new AdminActionError("invalid");
 }
 
 export async function requireAdminPermission(
@@ -79,10 +93,11 @@ export async function runAdminAction(
   successPath: string,
   operation: (supabase: AdminClient, user: User) => Promise<void>,
 ): Promise<never> {
-  const supabase = await createClient();
+  let supabase: AdminClient | undefined;
   let failure: ActionFailure | undefined;
 
   try {
+    supabase = await createClient();
     const {
       data: { user },
       error,
@@ -98,6 +113,10 @@ export async function runAdminAction(
 
   if (failure) {
     redirect(`${errorPath}?action=error&reason=${failure}`);
+  }
+
+  if (!supabase) {
+    redirect(`${errorPath}?action=error&reason=configuration`);
   }
 
   revalidatePath(errorPath);

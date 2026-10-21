@@ -1,6 +1,6 @@
 "use server";
 
-import { runAdminAction } from "@/lib/actions/admin";
+import { rejectInvalidInput, runAdminAction } from "@/lib/actions/admin";
 
 export async function createAnnouncement(formData: FormData) {
   return runAdminAction(
@@ -16,6 +16,16 @@ export async function createAnnouncement(formData: FormData) {
         status,
         created_by: user.id,
       };
+      if (
+        !payload.title ||
+        !payload.body ||
+        !["all", "students", "teachers", "admins"].includes(
+          String(payload.target_audience),
+        ) ||
+        !["draft", "scheduled", "published", "unpublished"].includes(status)
+      ) {
+        rejectInvalidInput();
+      }
       if (status === "published") {
         payload.published_at = new Date().toISOString();
       }
