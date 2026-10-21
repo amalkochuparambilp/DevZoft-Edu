@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/providers.dart';
-import '../models/resource.dart';
+import '../../providers/providers.dart';
+import '../../models/resource.dart';
 
 class ResourceDetailScreen extends ConsumerStatefulWidget {
   final String id;

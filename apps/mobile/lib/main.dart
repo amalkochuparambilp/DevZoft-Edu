@@ -6,15 +6,15 @@ import 'package:devzoft_learning/routing/app_router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-  const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
-  if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
+  const supabasePublishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  if (supabaseUrl.isEmpty || supabasePublishableKey.isEmpty) {
     throw StateError(
-      'Missing Supabase configuration. Provide SUPABASE_URL and SUPABASE_ANON_KEY with --dart-define.',
+      'Missing Supabase configuration. Provide SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY with --dart-define.',
     );
   }
   await Supabase.initialize(
     url: supabaseUrl,
-    anonKey: supabaseAnonKey,
+    publishableKey: supabasePublishableKey,
   );
   runApp(const ProviderScope(child: DevZoftApp()));
 }

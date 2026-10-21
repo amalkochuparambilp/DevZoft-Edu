@@ -25,7 +25,7 @@ class ResourceRepository {
   Future<Resource?> getResource(String id) async {
     final res = await _client.from('resources').select().eq('id', id).maybeSingle();
     if (res == null) return null;
-    return Resource.fromJson(res as Map<String, dynamic>);
+    return Resource.fromJson(res);
   }
 
   Future<List<Resource>> featured() async {
