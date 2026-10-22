@@ -10,15 +10,16 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Users</h1>
-      <form className="flex gap-2">
-        <input name="q" defaultValue={sp.q} placeholder="Search email..." className="h-10 rounded-lg border border-slate-300 px-3 text-sm dark:border-slate-700 dark:bg-slate-900" />
-        <button className="h-10 px-4 rounded-lg bg-blue-600 text-white text-sm">Search</button>
+      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Users</h1>
+      <form className="flex flex-col gap-2 sm:flex-row">
+        <input name="q" defaultValue={sp.q} placeholder="Search email..." className="h-11 min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-sm" />
+        <button className="h-11 rounded-xl bg-blue-600 px-4 text-sm font-medium text-white sm:w-auto">Search</button>
       </form>
       <Card>
         <CardHeader><CardTitle>Registered Users</CardTitle></CardHeader>
         <CardContent>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[620px] text-sm">
             <thead><tr><th className="text-left p-2">Name</th><th className="text-left p-2">Email</th><th className="text-left p-2">Joined</th></tr></thead>
             <tbody>
               {(users ?? []).map((u: any) => (
@@ -30,6 +31,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
               ))}
             </tbody>
           </table>
+          </div>
         </CardContent>
       </Card>
     </div>

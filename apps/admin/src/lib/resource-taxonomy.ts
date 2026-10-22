@@ -1,5 +1,25 @@
 import { createClient } from "@/lib/supabase/server";
 
+export const RESOURCE_TYPES = [
+  "pdf",
+  "notes",
+  "ebook",
+  "video",
+  "audio",
+  "article",
+  "worksheet",
+  "question_paper",
+  "external_link",
+] as const;
+
+export const RESOURCE_STATUSES = [
+  "draft",
+  "in_review",
+  "published",
+  "unpublished",
+  "archived",
+] as const;
+
 export interface ResourceTaxonomy {
   educationLevels: Array<{ id: string; name: string }>;
   categories: Array<{ id: string; name: string }>;

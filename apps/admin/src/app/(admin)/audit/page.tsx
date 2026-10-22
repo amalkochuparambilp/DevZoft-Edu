@@ -9,7 +9,8 @@ export default async function AuditPage() {
       <h1 className="text-2xl font-bold">Audit Logs</h1>
       <Card>
         <CardContent className="pt-6">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm">
             <thead><tr><th className="text-left p-2">Action</th><th className="text-left p-2">Target</th><th className="text-left p-2">When</th></tr></thead>
             <tbody>
               {(logs ?? []).map((l: any) => (
@@ -21,6 +22,7 @@ export default async function AuditPage() {
               ))}
             </tbody>
           </table>
+          </div>
           {(!logs || logs.length === 0) && <p className="text-slate-500">No logs.</p>}
         </CardContent>
       </Card>

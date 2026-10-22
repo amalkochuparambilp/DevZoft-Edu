@@ -1,25 +1,10 @@
 "use server";
 
 import { rejectInvalidInput, runAdminAction } from "@/lib/actions/admin";
+import { RESOURCE_STATUSES, RESOURCE_TYPES } from "@/lib/resource-taxonomy";
 
-const resourceTypes = new Set([
-  "pdf",
-  "notes",
-  "ebook",
-  "video",
-  "audio",
-  "article",
-  "worksheet",
-  "question_paper",
-  "external_link",
-]);
-const resourceStatuses = new Set([
-  "draft",
-  "in_review",
-  "published",
-  "unpublished",
-  "archived",
-]);
+const resourceTypes = new Set<string>(RESOURCE_TYPES);
+const resourceStatuses = new Set<string>(RESOURCE_STATUSES);
 
 function resourcePayload(formData: FormData, userId: string, creating: boolean) {
   const status = String(formData.get("status") ?? "draft");

@@ -22,7 +22,7 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ id:
               <option value="mcq">mcq</option>
               <option value="single_choice">single_choice</option>
             </select>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {[0,1,2,3].map((i) => (
                 <div key={i} className="flex items-center gap-2">
                   <input type="radio" name="correct" value={i} />
@@ -41,8 +41,8 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ id:
         {(questions ?? []).map((q: any, idx: number) => (
           <Card key={q.id}>
             <CardContent className="pt-6">
-              <div className="flex items-start justify-between">
-                <div>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
                   <div className="font-medium">{idx + 1}. {q.question_text}</div>
                   <ul className="mt-2 space-y-1 text-sm">
                     {(q.question_options ?? []).map((o: any) => (

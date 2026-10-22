@@ -19,11 +19,14 @@ class _ResourceListScreenState extends ConsumerState<ResourceListScreen> {
   static const _types = [
     ('All resources', ''),
     ('Articles', 'article'),
+    ('PDFs', 'pdf'),
     ('Notes', 'notes'),
     ('Books', 'ebook'),
     ('Videos', 'video'),
+    ('Audio', 'audio'),
     ('Worksheets', 'worksheet'),
     ('Past papers', 'question_paper'),
+    ('External links', 'external_link'),
   ];
 
   List<Resource> _items = [];

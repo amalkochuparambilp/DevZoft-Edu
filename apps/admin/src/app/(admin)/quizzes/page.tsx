@@ -17,9 +17,9 @@ export default async function QuizzesPage() {
         <CardContent className="pt-6">
           <ul className="divide-y divide-slate-200 dark:divide-slate-800">
             {(quizzes ?? []).map((q: any) => (
-              <li key={q.id} className="py-3 flex items-center justify-between">
-                <div>
-                  <Link href={`/quizzes/${q.id}`} className="font-medium text-blue-600 hover:underline">{q.title}</Link>
+              <li key={q.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <Link href={`/quizzes/${q.id}`} className="break-words font-medium text-blue-600 hover:underline">{q.title}</Link>
                   <div className="text-xs text-slate-500">{q.status}</div>
                 </div>
                 <form action={deleteQuiz.bind(null, q.id)}>

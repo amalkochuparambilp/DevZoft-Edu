@@ -3,20 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormSubmitButton } from "@/components/form-submit-button";
 import { createResource, updateResource } from "@/lib/actions/resources";
-import type { ResourceTaxonomy } from "@/lib/resource-taxonomy";
-
-const TYPES = [
-  "pdf",
-  "notes",
-  "ebook",
-  "video",
-  "audio",
-  "article",
-  "worksheet",
-  "question_paper",
-  "external_link",
-];
-const STATUSES = ["draft", "in_review", "published", "unpublished", "archived"];
+import {
+  RESOURCE_STATUSES,
+  RESOURCE_TYPES,
+  type ResourceTaxonomy,
+} from "@/lib/resource-taxonomy";
 
 interface ResourceRecord {
   title: string;
@@ -136,7 +127,7 @@ export default function ResourceForm({
                 defaultValue={initial?.resource_type ?? "article"}
                 className={inputClass}
               >
-                {TYPES.map((type) => (
+                {RESOURCE_TYPES.map((type) => (
                   <option key={type} value={type}>
                     {labelize(type)}
                   </option>
@@ -149,7 +140,7 @@ export default function ResourceForm({
                 defaultValue={initial?.status ?? "draft"}
                 className={inputClass}
               >
-                {STATUSES.map((status) => (
+                {RESOURCE_STATUSES.map((status) => (
                   <option key={status} value={status}>
                     {labelize(status)}
                   </option>

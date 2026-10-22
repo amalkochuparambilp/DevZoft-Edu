@@ -16,9 +16,9 @@ export default async function SettingsPage() {
           <Card key={s.key}>
             <CardHeader><CardTitle className="text-base">{s.key}</CardTitle></CardHeader>
             <CardContent>
-              <form action={async (fd) => { "use server"; await updateSetting(s.key, String(fd.get("value") ?? "")); }} className="flex gap-2">
-                <Input name="value" defaultValue={JSON.stringify(s.value)} />
-                <Button type="submit" size="sm">Save</Button>
+              <form action={async (fd) => { "use server"; await updateSetting(s.key, String(fd.get("value") ?? "")); }} className="flex flex-col gap-2 sm:flex-row">
+                <Input name="value" defaultValue={JSON.stringify(s.value)} className="min-w-0 w-full flex-1" />
+                <Button type="submit" size="sm" className="w-full sm:w-auto">Save</Button>
               </form>
             </CardContent>
           </Card>
