@@ -12,5 +12,7 @@ Backend (Supabase):
 - Configure auth redirect URLs.
 
 Android:
-- Build APK/AAB via Flutter: `flutter build apk --release` and `flutter build appbundle --release`.
-- Configure signing per Flutter docs.
+- The GitHub Actions workflow builds and uploads an installable debug APK on pushes to `main` and manual runs. Pull requests run Flutter analysis and tests.
+- Add `SUPABASE_URL` and either `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_ANON_KEY` under GitHub repository **Settings → Secrets and variables → Actions**. The APK needs these values to connect to Supabase.
+- Download the `devzoft-learning-apk-<commit>` artifact from the completed workflow run. This debug-signed APK is for testing; configure a private Android release signing key before distributing a production APK or publishing to Google Play.
+- Local builds: `cd apps/mobile && flutter build apk --debug --dart-define=SUPABASE_URL=https://your-project.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=your-publishable-key`.
